@@ -61,10 +61,8 @@ class MultiSelect extends BaseFormItem
 		}
 		$this->attributes['class'] .= ' multiselect';
 		$this->attributes['multiple'] = true;
-		
-		$values = ( is_object( $this->values() ) ) ? $this->values()->toArray() : $this->values(); 
-		
-		$content = $this->formBuilder->selectGroup($this->name, $this->label, $list, $values, $this->attributes);
+
+		$content = $this->formBuilder->selectGroup($this->name, $this->label, $list, $this->values(), $this->attributes);
 		$content .= '<input type="hidden" name="' . $this->name . '" value="__dummy-multiselect-value"/>';
 		return $content;
 	}
@@ -120,7 +118,7 @@ class MultiSelect extends BaseFormItem
 		{
 			if ($result instanceof Relation)
 			{
-				$result = $result->lists($part);
+				$result = $result->lists($part)->all();
 			} else
 			{
 				$result = $result->$part();
